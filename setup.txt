@@ -1,0 +1,54 @@
+### 使用 Codex CLI
+
+  cd /Users/aaron/rd/project/gudi/deeptest/server/data/projects/demo-speckit
+  git init
+  git add 需求.md
+  git commit -m "docs: add todo-list requirement"
+
+  specify init --here --ai codex --ai-skills --force
+
+  # constitution
+  codex exec -C . --approve-for-me \
+    "阅读需求.md 和当前 Spec Kit 指令。创建 .specify/memory/constitution.md，
+    定义 Todo List 项目的核心原则：技术栈（React + Node.js + MySQL）、
+    前后端分离架构、API 与 E2E 测试要求、TypeScript 类型安全、
+    所有文档与代码注释必须使用中文等约束。
+    写完后用 ls 确认 .specify/memory/constitution.md 已实际生成，不存在则重写。"
+
+  # specify
+  codex exec -C . --approve-for-me \
+    "阅读需求.md 和当前 Spec Kit 指令。创建 Todo List 的规格目录 specs/001-todo-list，
+    写出 spec.md：用户故事、验收场景、边界和非功能要求。此步只写规格，不实现代码。
+    写完后用 ls 确认 specs/001-todo-list/spec.md 已实际生成，不存在则重写。"
+
+  # plan
+  codex exec -C . --approve-for-me \
+    "阅读 specs/001-todo-list/spec.md。为 React 前端、Node.js 后端、MySQL 创建
+    specs/001-todo-list/plan.md，明确架构、数据模型、API、前后端边界和测试策略。
+    写完后用 ls 确认 specs/001-todo-list/plan.md 已实际生成，不存在则重写。"
+
+  # tasks
+  codex exec -C . --approve-for-me \
+    "根据 specs/001-todo-list/spec.md 和 plan.md 创建 tasks.md。
+    任务按依赖顺序拆分：工程初始化、MySQL、后端 API、React 页面、API 测试、E2E 测试。
+    写完后用 ls 确认 specs/001-todo-list/tasks.md 已实际生成，不存在则重写。"
+
+  # implement
+  codex exec -C . --approve-for-me \
+    "严格按 specs/001-todo-list/tasks.md 实现 Todo List。
+    React 为前端，Node.js 为后端，MySQL 为数据库；实现 API 与 E2E 测试。
+    完成后执行相关测试，并更新 tasks.md 的完成状态。
+    最后用 ls 确认生成的代码与测试文件已实际落盘，缺失则补齐。"
+
+  git add .
+  git commit -m "feat: implement todo list from spec-kit specification"
+
+  ### 创建新版本（用于测试版本抓取）
+
+  # 版本 = Git commit SHA + specs/001-todo-list/ 内容快照指纹。
+  # 修改 spec.md 并提交，即产生新版本 v2（新的 commit SHA + 新的内容指纹）。
+  codex exec -C . --approve-for-me \
+    "阅读 specs/001-todo-list/spec.md。为 Todo List 新增一条需求或修改一条验收标准（例如新增：待办标题超过 200 字符时拒绝保存并给出提示）。修改 specs/001-todo-list/spec.md 后，用 ls 确认文件已更新。"
+
+  git add specs/001-todo-list/
+  git commit -m "spec: add title length boundary requirement (v2)"

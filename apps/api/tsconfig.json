@@ -1,0 +1,1 @@
+{"extends":"../../tsconfig.base.json","compilerOptions":{"composite":true,"noEmit":false,"outDir":"dist"},"references":[{"path":"../../packages/contracts"}],"include":["src/**/*.ts","scripts/**/*.ts","test/**/*.ts"]}

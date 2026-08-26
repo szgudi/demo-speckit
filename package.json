@@ -1,0 +1,12 @@
+{
+  "name": "todo-list-workspace",
+  "private": true,
+  "packageManager": "pnpm@10.32.1",
+  "scripts": {
+    "typecheck": "tsc -b --pretty false",
+    "test": "pnpm --filter @todo/contracts test && pnpm --filter @todo/web test",
+    "test:api": "pnpm --filter @todo/api test",
+    "test:e2e": "pnpm --filter @todo/e2e test"
+  },
+  "devDependencies": { "typescript": "^5.6.3" }
+}
