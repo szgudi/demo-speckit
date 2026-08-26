@@ -9,6 +9,13 @@ export const UpdateTodoRequestSchema = z.object({ title: title.optional(), compl
 export type UpdateTodoInput = z.infer<typeof UpdateTodoRequestSchema>;
 export const TodoListResponseSchema = z.object({ data: z.object({ items: z.array(TodoSchema) }).strict() }).strict();
 export const TodoResponseSchema = z.object({ data: z.object({ todo: TodoSchema }).strict() }).strict();
+export const TodoSearchStatusSchema = z.enum(['all', 'active', 'completed']);
+export const TodoSearchQuerySchema = z.object({
+  q: z.preprocess((value) => typeof value === 'string' && value.trim() === '' ? undefined : value, z.string().trim().min(1).optional()),
+  status: TodoSearchStatusSchema.default('all'),
+}).strict().transform(({ q, status }) => ({ ...(q === undefined ? {} : { keyword: q }), status }));
+export type TodoSearchStatus = z.infer<typeof TodoSearchStatusSchema>;
+export type TodoSearchQuery = z.infer<typeof TodoSearchQuerySchema>;
 export const ApiErrorCodeSchema = z.enum(['VALIDATION_ERROR','TODO_NOT_FOUND','DATABASE_ERROR','INTERNAL_ERROR']);
 export type ApiErrorCode = z.infer<typeof ApiErrorCodeSchema>;
 export const ApiErrorResponseSchema = z.object({ error: z.object({ code: ApiErrorCodeSchema, message: z.string() }).strict() }).strict();

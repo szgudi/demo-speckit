@@ -43,8 +43,7 @@
   git add .
   git commit -m "feat: implement todo list from spec-kit specification"
 
-  ### 创建新版本（用于测试版本抓取）
-
+  ### 新增功能，还是在同一个跌代中。
   # 版本 = Git commit SHA + specs/001-todo-list/ 内容快照指纹。
   # 修改 spec.md 并提交，即产生新版本 v2（新的 commit SHA + 新的内容指纹）。
   codex exec -C . --approve-for-me \
@@ -52,3 +51,35 @@
 
   git add specs/001-todo-list/
   git commit -m "spec: add title length boundary requirement (v2)"
+
+  ### 创建新迭代（新建 specs/<新跌代目录>，DeepTest里叫跌代，用于测试跌代需求抓取）
+  # specify
+  codex exec -C . --approve-for-me \
+    "阅读需求.md 和当前 Spec Kit 指令。创建新迭代的规格目录 specs/002-todo-search，
+    写出 spec.md：用户故事、验收场景、边界和非功能要求。此步只写规格，不实现代码。
+    写完后用 ls 确认 specs/002-todo-search/spec.md 已实际生成，不存在则重写。"
+
+  git add specs/002-todo-search/
+  git commit -m "spec: add 002-todo-search iteration"
+
+  # plan
+  codex exec -C . --approve-for-me \
+    "阅读 specs/002-todo-search/spec.md。为 React 前端、Node.js 后端、MySQL 创建
+    specs/002-todo-search/plan.md，明确架构、数据模型、API、前后端边界和测试策略。
+    写完后用 ls 确认 specs/002-todo-search/plan.md 已实际生成，不存在则重写。"
+
+  # tasks
+  codex exec -C . --approve-for-me \
+    "根据 specs/002-todo-search/spec.md 和 plan.md 创建 tasks.md。
+    任务按依赖顺序拆分：搜索接口、筛选逻辑、React 页面、API 测试、E2E 测试。
+    写完后用 ls 确认 specs/002-todo-search/tasks.md 已实际生成，不存在则重写。"
+
+  # implement
+  codex exec -C . --approve-for-me \
+    "严格按 specs/002-todo-search/tasks.md 实现搜索与筛选功能。
+    复用现有 apps/api、apps/web 工程结构（001-todo-list 已建好），在现有工程上增量添加，
+    不要重新 npm create 工程。完成后执行相关测试，并更新 tasks.md 的完成状态。
+    最后用 ls 确认生成的代码与测试文件已实际落盘，缺失则补齐。"
+
+  git add .
+  git commit -m "feat: implement 002-todo-search"
